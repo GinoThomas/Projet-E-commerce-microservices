@@ -1,0 +1,91 @@
+services:
+  service-eureka:
+    build: ./eureka-server  # Chemin vers le dossier du service
+    container_name: eureka-server # Nom du conteneur
+    ports:
+      - "8761:8761"          # Port hôte 8761 -> Port conteneur 8761
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    restart: on-failure  # Redémarrera automatiquement le service s'il crash au début
+    networks:
+      - micro-network
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"      # Port pour les microservices
+      - "15672:15672"    # Port pour l'interface web
+  service-catalogue:
+    build: ./catalogue-service
+    container_name: catalogue-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-eureka:8761/eureka/
+    depends_on:
+      - service-eureka # Docker attend que eureka démarre avant de lancer celui-ci
+    restart: on-failure
+    networks:
+      - micro-network
+    
+  service-panier:
+    build: ./panier-service
+    container_name: panier-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-eureka:8761/eureka/
+    depends_on:
+      - service-eureka
+    restart: on-failure
+    networks:
+      - micro-network
+
+  service-paiement:
+    build: ./paiement-service
+    container_name: paiement-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-eureka:8761/eureka/
+    depends_on:
+      - service-eureka
+    restart: on-failure
+    networks:
+      - micro-network
+  
+  service-stat:
+    build: ./suivi-stat-service
+    container_name: suivi-stat-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-eureka:8761/eureka/
+    depends_on:
+      - service-eureka
+    restart: on-failure
+    networks:
+      - micro-network
+
+  service-authentification:
+    build: ./authentification-service
+    container_name: authentification-service
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-eureka:8761/eureka/
+    depends_on:
+      - service-eureka
+    restart: on-failure
+    networks:
+      - micro-network
+
+
+networks:
+  micro-network:             # Crée un réseau interne pour que les services se parlent
+    driver: bridge

@@ -1,0 +1,17 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: authentification-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://service-eureka:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: maCleSecreteTrèsLongueEtComplexe12345
+  expirationMs: 3600000

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique en ligne - Microservices</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="" id="lienRetourCatalogue">🛒 Boutique en ligne</a>
+            <div class="header-actions">
+                <div class="solde-container">
+                    <span>💰 Solde: <strong id="solde">0.00€</strong></span>
+                    <button id="btnAjouterArgent" class="btn-secondary">Ajouter de l'argent</button>
+                </div>
+                <button id="btnVoirPanier" class="btn-primary">🛒 Panier (<span id="panierCount">0</span>)</button>
+            </div>
+            <button id="btnAuth" class="btn-secondary">
+            👤 S’identifier
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Section Catalogue -->
+        <section id="catalogueSection">
+            <h2>Nos produits</h2>
+            <div id="catalogueProduits" class="produits-grid"></div>
+        </section>
+
+        <!-- Section Panier (cachée par défaut) -->
+        <section id="panierSection" style="display: none;">
+            <div class="panier-header">
+                <h2>Mon panier</h2>
+                <button id="btnRetourCatalogue" class="btn-secondary">← Retour au catalogue</button>
+            </div>
+            <div id="panierItems"></div>
+            <div class="panier-total">
+                <h3>Total: <span id="panierTotal">0.00€</span></h3>
+                <button id="btnValiderAchat" class="btn-success">Valider l'achat</button>
+                <button id="btnViderPanier" class="btn-danger">Vider le panier</button>
+            </div>
+        </section>
+
+        <!-- Section Statistiques -->
+        <section id="statsSection">
+            <h2>📊 Mes statistiques</h2>
+            <div id="statsContainer" class="stats-grid"></div>
+            <h3>Historique des transactions</h3>
+            <div id="historiqueTransactions"></div>
+        </section>
+    </main>
+
+    <!-- Modal Ajouter argent -->
+    <div id="modalArgent" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter de l'argent</h2>
+            <input type="number" id="montantArgent" placeholder="Montant en €" min="1" step="0.01">
+            <button id="btnConfirmerArgent" class="btn-success">Confirmer</button>
+        </div>
+    </div>
+
+    <!-- Modal Authentification -->
+    <div id="modalAuth" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAuth">&times;</span>
+            <h2>🔐 S’identifier</h2>
+
+            <input type="email" id="authEmail" placeholder="Email">
+            <input type="password" id="authPassword" placeholder="Mot de passe">
+
+            <button id="btnConnexion" class="btn-success">
+                Se connecter
+            </button>
+
+            <button id="btnCreerCompte" class="btn-secondary">
+                Créer un compte
+            </button>
+
+            <p id="authError" style="color: red; margin-top: 10px; display: none;">
+                Identifiants incorrects
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal Création compte -->
+    <div id="modalSignup" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignup">&times;</span>
+            <h2>📝 Créer un compte</h2>
+
+            <input type="text" id="signupNom" placeholder="Nom">
+            <input type="email" id="signupEmail" placeholder="Email">
+            <input type="password" id="signupPassword" placeholder="Mot de passe">
+
+            <button id="btnSignup" class="btn-success">Créer</button>
+
+            <p id="signupError" style="color: red; margin-top: 10px; display: none;">
+                Erreur lors de la création
+            </p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
